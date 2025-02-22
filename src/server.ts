@@ -1,13 +1,11 @@
-import express, { Request, Response } from "express";
+import { App } from "./app";
 import "dotenv/config";
 
-const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("Hello, Express with TypeScript!");
-});
+if (!PORT) {
+  throw new Error("PORT is required");
+}
 
-app.listen(PORT, () => {
-  console.log(`Server running on port: ${PORT}`);
-});
+const server = new App(+PORT);
+server.listen();
