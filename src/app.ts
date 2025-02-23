@@ -1,8 +1,7 @@
-import express, { Application, Router } from "express";
+import express, { Application } from "express";
 import routes from "./routes";
 import cors from "cors";
 import bodyParser from "body-parser";
-import "dotenv/config";
 
 export class App {
   public app: Application;

@@ -1,3 +1,3 @@
-import { loadRoutes } from "../utils/autoloadRoutes";
+import { loadRoutes } from "../utils/autoLoadRoutes";
 
 export default loadRoutes();
