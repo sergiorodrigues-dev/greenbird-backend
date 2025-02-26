@@ -8,6 +8,7 @@ export enum UserRole {
 
 // Define the User schema interface
 export interface IUser extends Document {
+  _id: mongoose.Types.ObjectId;
   name: string;
   email: string;
   password: string;
