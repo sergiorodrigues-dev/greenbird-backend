@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import UserModel from "../models/userModel";
 
 class AuthService {
@@ -31,16 +31,27 @@ class AuthService {
 
     return {
       accessToken: this.generateAccessToken(user._id.toString(), user.role),
-      refreshTolen: this.generateRefreshToken(user._id.toString()),
+      refreshToken: this.generateRefreshToken(user._id.toString()),
+      user: user,
     };
   }
 
-  static vefifyAccessToken(token: string) {
+  static verifyAccessToken(token: string) {
     return jwt.verify(token, process.env.JWT_SECRET as string);
   }
 
-  static verifyRefreshToken(token: string) {
-    return jwt.verify(token, process.env.JWT_REFRESH_SECRET as string);
+  static verifyRefreshToken(token: string): JwtPayload {
+    const decoded = jwt.verify(token, process.env.JWT_REFRESH_SECRET as string);
+
+    if (typeof decoded !== "object" || decoded === null) {
+      throw new Error("Invalid token format");
+    }
+
+    if (!("exp" in decoded) || !("iat" in decoded)) {
+      throw new Error("Invalid token payload");
+    }
+
+    return decoded as JwtPayload;
   }
 }
 

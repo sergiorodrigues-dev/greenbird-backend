@@ -2,6 +2,7 @@ import express, { Application } from "express";
 import routes from "./routes";
 import cors from "cors";
 import bodyParser from "body-parser";
+import mongoSanitize from "express-mongo-sanitize";
 
 export class App {
   public app: Application;
@@ -18,6 +19,7 @@ export class App {
   private middlewares() {
     this.app.use(cors());
     this.app.use(bodyParser.json());
+    this.app.use(mongoSanitize());
   }
 
   private routes(): void {
